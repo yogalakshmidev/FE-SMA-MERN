@@ -67,7 +67,7 @@ const handleKeyDown = (event) => {
 
   useEffect(()=>{
     getPost()
-  },[deleteComment,createComment])
+  },[deleteComment])
 
   return (
     <section className='singlePost'>
@@ -100,7 +100,7 @@ const handleKeyDown = (event) => {
           <textarea 
           value={comment}
           onKeyDown={handleKeyDown}
-          placeholder='Enter your comment... ' onChange = {e => setComment(e.target.value)} >{comment}</textarea>
+          placeholder='Enter your comment... ' onChange = {e => setComment(e.target.value)} />
           <button
            type='submit' 
            disabled 

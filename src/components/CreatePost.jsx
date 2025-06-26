@@ -30,7 +30,7 @@ const CreatePost = ({onCreatePost,error}) => {
         <div className = 'createPost__bottom'>
     <span></span>
     <div className='createPost__actions'>
-<label htmlFor='image' > <SlPicture /></label>
+<label htmlFor='image' className='createPost__image' > <SlPicture /></label>
 <input type = 'file' id = 'image' onChange = {e => setImage(e.target.files[0])} />
 <button type = 'submit'>Post</button>
 

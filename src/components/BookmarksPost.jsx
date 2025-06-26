@@ -20,6 +20,12 @@ const BookmarksPost = ({post}) => {
 
         setUser(response?.data)
 
+        if(response?.data?.userBookmarks?.bookmarks?.includes(post?._id)){
+          setPostBookmarked(true)
+        }else{
+          setPostBookmarked(false)
+        }
+
     } catch (error) {
       console.log(error.response.data.message)
     }
@@ -28,6 +34,7 @@ const BookmarksPost = ({post}) => {
   useEffect(()=>{
     getUser()
   },[user,postBookmarked])
+
 
   // fn to create bookmark
   const createBookmark = async() =>{
@@ -42,8 +49,10 @@ try {
 console.log("response from bookmark",response)
   if(response?.data?.userBookmarks?.bookmarks?.includes(post?._id)){
     setPostBookmarked(true)
+    alert("Post added to the bookmark")
   }else{
     setPostBookmarked(false)
+    alert("Post removed from the bookmark")
   }
 
 } catch (error) {
