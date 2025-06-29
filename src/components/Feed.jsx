@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import ProfileImage from "./ProfileImage";
 import TimeAgo from "timeago-react";
@@ -9,12 +9,14 @@ import { FaRegCommentDots } from "react-icons/fa";
 import {IoMdShare} from 'react-icons/io'
 import TrimText from "../helpers/TrimText";
 import BookmarksPost from "./BookmarksPost";
+import { uiSliceActions } from "../store/ui-slice";
 
-const Feed = ({ post }) => {
+const Feed = ({ post,onDeletePost }) => {
   const [creator, setCreator] = useState({});
   const token = useSelector((state) => state?.user?.currentUser?.token);
   const userId = useSelector((state) => state?.user?.currentUser?.id);
-  const [showFeedHeaderMenu,setShowFeedHeaderMenu] = useState(false);
+  const [showFeedHeaderMenu,setShowFeedHeaderMenu] = useState(true);
+  const dispatch = useDispatch()
   const location = useLocation()
 
 
@@ -27,7 +29,7 @@ const Feed = ({ post }) => {
         { withCredentials: true, headers: { Authorization: `Bearer ${token}` } }
       );
 
-      console.log("get post in creator is", response?.data.user);
+      // console.log("get post in creator is", response?.data.user);
       setCreator(response?.data.user);
     } catch (error) {
       console.log(error.response.data.message);
@@ -37,6 +39,22 @@ const Feed = ({ post }) => {
   useEffect(() => {
     getPostCreator();
   }, []);
+
+  const closeFeedHeaderMenu = () =>{
+    setShowFeedHeaderMenu(false)
+  }
+
+const showEditPostModal = () => {
+  dispatch(uiSliceActions?.openEditProfileModal(post?._id))
+  closeFeedHeaderMenu()
+}
+
+const deletePost = () => {
+   onDeletePost(post?._id)
+   closeFeedHeaderMenu()
+}
+
+
   return (
     <article className="feed">
       <header className="feed__header">

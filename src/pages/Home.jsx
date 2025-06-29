@@ -20,7 +20,7 @@ const Home = () => {
         headers:{Authorization:`Bearer ${token}`}})
 
       const newPost = response?.data;
-      console.log("response for the post",newPost)
+      // console.log("response for the post",newPost)
       setPosts([newPost,...posts])
     } catch (err) {
       setError(err?.response?.data?.message)
@@ -48,7 +48,7 @@ useEffect(() => {
 getPosts()
 },[setPosts])
 
-console.log("post recently added",posts);
+// console.log("post recently added",posts);
   return (
     <section className = 'mainArea'>
       <CreatePost onCreatePost = {createPost} error = {error} />
