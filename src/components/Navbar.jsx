@@ -8,6 +8,7 @@ import axios from 'axios'
 const Navbar = () => {
 
 const [user,setUser] = useState({})
+const [profilePhoto,setProfilePhoto] = useState({})
   const userId = useSelector(state => state?.user?.currentUser?.id);
   const token = useSelector(state => state?.user?.currentUser?.token);
   
@@ -19,7 +20,8 @@ const [user,setUser] = useState({})
     try {
      const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/${userId}`, {withCredentials: true, headers:{Authorization: `Bearer ${token}`}}) 
      setUser(response?.data)
-     console.log("get user from navbar",response?.data)
+     setProfilePhoto(response?.data?.user?.profilePhoto)
+     console.log("get user from navbar",response?.data,response?.data?.user?.profilePhoto)
     } catch (error) {
       console.log(error)
     }
@@ -53,7 +55,7 @@ useEffect(()=>{
           </form>
 <div className='navbar__right'>
   <Link to={`/users/${userId}`} className='navbar__profile'>
-  <ProfileImage image={user?.profilePhoto}/>
+  <ProfileImage image={profilePhoto}/>
   </Link>
   {token? 
   <Link to='/logout'>Logout</Link>:<Link to='/login'>Login</Link>}
