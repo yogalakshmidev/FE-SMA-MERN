@@ -10,12 +10,14 @@ import {IoMdShare} from 'react-icons/io'
 import TrimText from "../helpers/TrimText";
 import BookmarksPost from "./BookmarksPost";
 import { uiSliceActions } from "../store/ui-slice";
+import {HiDotsHorizontal} from 'react-icons/hi'
+
 
 const Feed = ({ post,onDeletePost }) => {
   const [creator, setCreator] = useState({});
   const token = useSelector((state) => state?.user?.currentUser?.token);
   const userId = useSelector((state) => state?.user?.currentUser?.id);
-  const [showFeedHeaderMenu,setShowFeedHeaderMenu] = useState(true);
+  const [showFeedHeaderMenu,setShowFeedHeaderMenu] = useState(false);
   const dispatch = useDispatch()
   const location = useLocation()
 
@@ -45,7 +47,7 @@ const Feed = ({ post,onDeletePost }) => {
   }
 
 const showEditPostModal = () => {
-  dispatch(uiSliceActions?.openEditProfileModal(post?._id))
+  dispatch(uiSliceActions?.openEditPostModal(post?._id))
   closeFeedHeaderMenu()
 }
 
@@ -68,12 +70,16 @@ const deletePost = () => {
             </small>
           </div>
         </Link>
-{showFeedHeaderMenu && userId == post?.creator && location.pathname.includes("users") && <menu className="feed__headermenu">
+{showFeedHeaderMenu && userId == post?.creator && location.pathname.includes("users") && <menu className="feed__header-menu">
   <button onClick={showEditPostModal}>Edit</button>
   <button onClick={deletePost}>Delete</button>
 
   </menu>}
-
+{userId == post?.creator && location.pathname.includes("users") && 
+  <button onClick={()=>setShowFeedHeaderMenu(!showFeedHeaderMenu)}>
+    <HiDotsHorizontal/>
+  </button>
+  }
       </header>
 
       <Link to={`posts/${post?._id}`} className="feed__body">

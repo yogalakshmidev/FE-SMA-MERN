@@ -32,11 +32,11 @@ const uiSlice = createSlice({
     closeEditProfileModal: state=>{
       state.editProfileModalOpen = false;
     },
-    openEditProfileModal:(state,action)=>{
+    openEditPostModal:(state,action)=>{
       state.editPostModalOpen = true;
       state.editPostId= action.payload;
     },
-    closeEditProfileModal:state=>{
+    closeEditPostModal:state=>{
       state.editPostModalOpen = false;
     }
   }

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Feed from '../components/Feed'
+import EditPostModal from "../components/EditPostModal";
 
 const Profile = () => {
   const [user, setUser] = useState({});
@@ -12,6 +13,7 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id: userId } = useParams();
   const token = useSelector((state) => state?.user?.currentUser?.token);
+  const editPostModalOpen = useSelector(state => state?.ui?.editPostModalOpen)
 
   // get user's post
   const getUserPosts = async () => {
@@ -43,6 +45,25 @@ const Profile = () => {
     }
   };
 
+const updatePost = async (data,postId) =>{
+  try {
+    const response = await axios.patch(`${import.meta.env.VITE_API_URL}/posts/${postId}`,data,{withCredentials: true, headers:{Authorization:`Bearer ${token}`}})
+// console.log("while updating post",response?.data)
+    if(response?.status == 200) {
+      const updatedPost = response?.data;
+      setUserPosts(userPosts?.map(post =>{
+        if(updatedPost?._id.toString() == post?._id.toString()){
+          post.body = updatedPost.body;
+        }
+        return post;
+      }))}
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
   return (
     <section>
       <UserProfile />
@@ -56,6 +77,7 @@ const Profile = () => {
           ))
         )}
       </section>
+      {editPostModalOpen && <EditPostModal onUpdatePost = {updatePost}/>}
     </section>
   );
 };
