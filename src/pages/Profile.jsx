@@ -6,6 +6,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import Feed from '../components/Feed'
 import EditPostModal from "../components/EditPostModal";
+import EditProfileModal from "../components/EditProfileModal";
 
 const Profile = () => {
   const [user, setUser] = useState({});
@@ -14,6 +15,7 @@ const Profile = () => {
   const { id: userId } = useParams();
   const token = useSelector((state) => state?.user?.currentUser?.token);
   const editPostModalOpen = useSelector(state => state?.ui?.editPostModalOpen)
+  const editProfileModalOpen = useSelector(state => state?.ui?.editProfileModalOpen)
 
   // get user's post
   const getUserPosts = async () => {
@@ -59,7 +61,7 @@ const updatePost = async (data,postId) =>{
       }))}
 
   } catch (error) {
-    console.log(error)
+    console.log(error.response?.useParamswaaage)
   }
 }
 
@@ -78,6 +80,8 @@ const updatePost = async (data,postId) =>{
         )}
       </section>
       {editPostModalOpen && <EditPostModal onUpdatePost = {updatePost}/>}
+
+      {editProfileModalOpen && <EditProfileModal />}
     </section>
   );
 };
