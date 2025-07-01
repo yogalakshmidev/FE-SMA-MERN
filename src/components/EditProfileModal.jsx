@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { uiSliceActions } from '../store/ui-slice'
-import { useNavigate } from 'react-router-dom'
+
 
 
 
@@ -15,7 +15,7 @@ const EditProfileModal = () => {
   const getUser = async () =>{
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/${id}`,{withCredentials: true, headers: {Authorization: `Bearer ${token}`}})
-console.log("profile details ",response?.data)
+      // console.log("profile details ",response?.data)
       setUserData(response?.data?.user)
 
     } catch (error) {
@@ -36,7 +36,7 @@ if(e.target.classList.contains('editProfile')){
 const updateUser = async() =>{
 try {
   const response = await axios.patch(`${import.meta.env.VITE_API_URL}/users/edit`,userData,{withCredentials: true, headers: {Authorization: `Bearer ${token}`}})
-console.log("response from updateProfile",response?.data?.user)
+// console.log("response from updateProfile",response?.data?.user)
   
   
   closeModal()
@@ -46,7 +46,7 @@ console.log("response from updateProfile",response?.data?.user)
 }
 
 const changeUserData = (e) =>{
-  console.log("changing user's data",e.target.value)
+  // console.log("changing user's data",e.target.value)
 setUserData(prevState => {
   return {...prevState,[e.target.name]:e.target.value}
 })
