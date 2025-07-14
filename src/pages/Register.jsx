@@ -14,15 +14,14 @@ const Register = () => {
     const navigate = useNavigate()
 
     const changeInputHandler = (e)=>{
-      setUserData(prevState=>({...prevState,[e.target.name]:e.target.value}))
+      setUserData(prevState => ({...prevState,[e.target.name]:e.target.value}))
     }
 
     const registerUser = async (e) => {
       e.preventDefault();
       try {
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/register`,userData)
-        console.log("Response data is",response)
-
+        
         if(response.statusText == 'OK'){
           navigate('/login')
         }
@@ -36,7 +35,7 @@ const Register = () => {
     return (
       <section className='register'>
         <div className='container register__container'>
-          <h2>Sign Up
+          <h2>Sign Up</h2>
             <form onSubmit = {registerUser}>
         {error && <p className = "form__error-message">{error}</p>}
          <input type = "text" name = "fullName" placeholder="Full Name" onChange = {changeInputHandler} autoFocus/>
@@ -47,7 +46,7 @@ const Register = () => {
           </div>
 
     <div className='password__controller'>
-      <input type = {showPassword? "text":"password"} name='confirmPassword' placeholder=' Confirm Password' onChange={changeInputHandler} />
+      <input type = {showPassword? "text":"password"} name='confirmPassword' placeholder='Confirm Password' onChange={changeInputHandler} />
 <span onClick={()=>setShowPassword(!showPassword)}>{showPassword? <FaEyeSlash />:<FaEye />}</span>
           </div>
 <p>Already have an account?<Link to='/login'>Sign In</Link></p>
@@ -55,7 +54,7 @@ const Register = () => {
 <button type = 'submit' className = 'btn primary'>Register</button>
 
             </form>
-          </h2>
+          
           </div>
           </section>
   )

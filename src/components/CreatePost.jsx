@@ -25,7 +25,7 @@ const CreatePost = ({onCreatePost,error}) => {
       {error && <p className = 'createPost__error-message'>{error}</p>}
       <div className = 'createPost__top'>
         <ProfileImage image = {profilePhoto} />
-        <textarea value = {body} onChange = {e => setBody(e.target.value)} placeholder = "what is on your mind?" />
+        <textarea value = {body} onChange = {e => setBody(e.target.value)} placeholder = "what is on your mind ?" />
         </div>
         <div className = 'createPost__bottom'>
     <span></span>

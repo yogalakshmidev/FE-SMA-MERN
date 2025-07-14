@@ -10,15 +10,17 @@ const ThemeModal = () => {
  const theme = useSelector(state => state?.ui?.theme)
 
  const closeThemeModal =(e)=>{
+  if(e.target.classList.contains("theme")){
    dispatch(uiSliceActions.closeThemeModal())
+  }
  }
 
- const changeBackgroundColor= color =>{
+ const changeBackgroundColor = color => {
   dispatch(uiSliceActions.changeTheme({...theme,backgroundColor: color}))
   localStorage.setItem("theme",JSON.stringify({...theme,backgroundColor: color}))
  }
 
-  const changePrimaryColor= color =>{
+  const changePrimaryColor = color => {
   dispatch(uiSliceActions.changeTheme({...theme,primaryColor: color}))
   localStorage.setItem("theme",JSON.stringify({...theme,primaryColor: color}))
  }

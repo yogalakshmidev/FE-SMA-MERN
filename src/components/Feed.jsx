@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import ProfileImage from "./ProfileImage";
-import TimeAgo from "timeago-react";
+import TimeAgo from "react-timeago";
 import axios from "axios";
 import LikeDislikePost from "./LikeDislikePost";
 import { FaRegCommentDots } from "react-icons/fa";
@@ -30,8 +30,8 @@ const Feed = ({ post,onDeletePost }) => {
         `${import.meta.env.VITE_API_URL}/users/${post?.creator}`,
         { withCredentials: true, headers: { Authorization: `Bearer ${token}` } }
       );
-
-      // console.log("get post in creator is", response?.data.user);
+// console.log("post created time",response?.data,response?.data?.post?.createdAt)
+      // console.log("get post in creator is", response?.data);
       setCreator(response?.data.user);
     } catch (error) {
       console.log(error.response.data.message);
@@ -40,6 +40,7 @@ const Feed = ({ post,onDeletePost }) => {
 
   useEffect(() => {
     getPostCreator();
+    
   }, []);
 
   const closeFeedHeaderMenu = () =>{

@@ -10,7 +10,8 @@ import {uiSliceActions} from '../store/ui-slice'
 const Sidebar = () => {
 
   const dispatch = useDispatch();
-const openThemeModal=()=>{
+
+const openThemeModal= () => {
   dispatch(uiSliceActions.openThemeModal())
 }
 
@@ -18,12 +19,12 @@ const openThemeModal=()=>{
 
   return (
     <menu className = 'sidebar'>
-      <NavLink to = '/' className={`sidebar__item ${({isActive}) => isActive ? "active" : ""}`}>
+      <NavLink to = '/' className={`sidebar__item ${({isActive}) => isActive ? "active" : ""}`} >
       <i className='sidebar__icon'><AiOutlineHome/> </i>
       <p>Home</p>
       </NavLink>
 
-      <NavLink to = '/messages' className={`sidebar__item ${({isActive}) => isActive ?"active" : ""}`}>
+      <NavLink to = '/messages' className={`sidebar__item ${({isActive}) => isActive ? "active" : ""}`}>
       <i className='sidebar__icon'><GoMail/> </i>
       <p>Messages</p>
       </NavLink>

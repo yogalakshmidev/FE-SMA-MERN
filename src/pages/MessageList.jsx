@@ -2,7 +2,9 @@ import React from 'react'
 
 const MessageList = () => {
   return (
-    <div>MessageList</div>
+    <menu className='messageList p-2'>
+    <div>Recent Messages</div>
+    </menu>
   )
 }
 

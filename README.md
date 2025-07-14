@@ -1,12 +1,33 @@
-# React + Vite
+### Social Media Application Using Mern
+---------------------------------------
+# Features
+    -Registration
+    -Login
+    -News Feed
+    -Posts
+    -Comments
+    -Likes
+    -Photo Uploads
+    -Friend Request
+    
+## Registration:
+    User can able to register with this website by clicking the sign up option in the registration page.
+## Login
+    User can able to enter into the website by giving the correct credentials and other details...After validation , the user can enter into the Home page
+## News Feed
+  It displays all the post that are posted in the website and also arrange them in the sorting order 
+##  Posts
+  The user can able to create,edit, and delete the post that are created by the loggedInUsers
+## Comments:
+  The user can able to comment on any post that are displayed in the home page. The user can able to delete the particular comment that are only posted by him.
+## Likes
+  The user can able to like any post and also the number of the likes for that particular post are also display near the like icon
+## Photo Uploads
+  The user can able to upload the photos that are need for that post
+## Friend Request
+  The user can able to select the friends from the friendlist/suggestion list
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Bookmarks
+  The user can able to adding or removing bookmark on the post by clicking the bookmark icon on that feed section in the home page
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+        Thank you.

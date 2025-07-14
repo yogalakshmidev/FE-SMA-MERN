@@ -43,7 +43,7 @@ const Profile = () => {
 
       setUserPosts(userPosts?.filter(p=>p?._id != postId))
     } catch (error) {
-      console.log(error)
+      console.log(error.response.data.message)
     }
   };
 

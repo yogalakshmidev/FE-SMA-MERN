@@ -23,22 +23,20 @@ const token = useSelector(state => state?.user?.currentUser?.token)
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${id}`,{withCredentials:true,
         headers:{Authorization: `Bearer ${token}`}})
-    console.log("response for get  singlepost",response)
-        setPost(response?.data.post)
+    
+        setPost(response?.data?.post)
     } catch (error) {
       console.log(error)
     }
   }
 
 const handleKeyDown = (event) => {
-    // Check if the Enter key was pressed (keyCode 13 or key 'Enter')
-    // and ensure Shift key is not pressed (to allow new lines with Shift + Enter)
+    
     if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault(); // Prevent default behavior (e.g., new line in textarea)
+      event.preventDefault(); 
       createComment();
       setComment('');
-      // submitComment(); // Call your function to submit the comment
-    }
+      }
   };
   
   // fn to delete comment
@@ -95,7 +93,7 @@ const handleKeyDown = (event) => {
 <BookmarksPost post={post} />
       </footer>
 
-      <ul className='singlePost_comments'>
+      <ul className='singlePost__comments'>
         <form className='singlePost__comments-form' onSubmit={createComment}>
           <textarea 
           value={comment}
@@ -106,7 +104,7 @@ const handleKeyDown = (event) => {
            disabled 
           //  className='singlePost__comments-btn'
           >
-           Press Enter
+          Press Enter
             {/* <IoMdSend/> */}
             </button>
         </form>

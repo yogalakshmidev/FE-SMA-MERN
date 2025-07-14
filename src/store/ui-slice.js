@@ -1,42 +1,36 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-localStorage.setItem( 'theme',JSON.stringify({ primaryColor: ""}))
-localStorage.setItem('theme', JSON.stringify({ backgroundColor: ""}))
+
 const initialState={
   themeModalIsOpen:false,
   editProfileModalOpen:false,
   editPostModalOpen:false,editPostId:"",
-  
-  //  localStorage.setItem({(primaryColor,""),(backgroundColor,"")})
-   
-
-  //  {primaryColor:"",backgroundColor:""}
   theme: JSON.parse(localStorage.getItem("theme"))||{primaryColor:"",backgroundColor:""}
 }
 const uiSlice = createSlice({
   name:"ui",
   initialState,
   reducers:{
-    openThemeModal: state=>{
-      state.themeModalIsOpen=true;
+    openThemeModal: state => {
+      state.themeModalIsOpen = true;
     },
-    closeThemeModal: state=>{
-      state.themeModalIsOpen=false;
+    closeThemeModal: state => {
+      state.themeModalIsOpen = false;
     },
-    changeTheme:(state,action)=>{
+    changeTheme: (state,action) => {
       state.theme = action.payload;
     },
-    openEditProfileModal:state=>{
+    openEditProfileModal: state => {
       state.editProfileModalOpen =  true;
     },
-    closeEditProfileModal: state=>{
+    closeEditProfileModal: state => {
       state.editProfileModalOpen = false;
     },
-    openEditPostModal:(state,action)=>{
+    openEditPostModal:(state,action) => {
       state.editPostModalOpen = true;
       state.editPostId= action.payload;
     },
-    closeEditPostModal:state=>{
+    closeEditPostModal: state => {
       state.editPostModalOpen = false;
     }
   }

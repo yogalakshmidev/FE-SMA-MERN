@@ -15,8 +15,9 @@ const handleLikeDislikePost =  async () =>{
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${post?._id}/like`,{withCredentials:true,
       headers:{Authorization:`Bearer ${token}`}
     })
-    console.log("like data",response?.data)
+    // console.log("like data",response?.data)
     setPost(response?.data)
+    
     
   } catch (error) {
     console.log(error)
@@ -34,14 +35,15 @@ const handleCheckIfUserLikedPost = () =>{
 
 useEffect(()=>{
   handleCheckIfUserLikedPost()
-},[post])
+  
+},[post,postLiked])
 
   return (
-    <div className='feed__footer-comments' onClick={handleLikeDislikePost}>
+    <button className='feed__footer-comments' onClick={handleLikeDislikePost}>
       
-      {postLiked ? <FcLike /> :<FaRegHeart/>}
+      {postLiked ?  <FcLike /> :<FaRegHeart/>}
       <small>{post?.likes?.length}</small>
-    </div>
+    </button>
   )
 }
 

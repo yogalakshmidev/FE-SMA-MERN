@@ -4,7 +4,7 @@ import {RouterProvider} from 'react-router-dom'
 import RootLayout from './RootLayout'
 import ErrorPage from './pages/ErrorPage'
 import Home from './pages/Home'
-import MessageList from './pages/MessageList'
+import MessagesList from './components/MessagesList'
 import Messages from './pages/Messages'
 import Bookmark from './pages/Bookmark'
 import Profile from './pages/Profile'
@@ -19,7 +19,7 @@ import store from './store/store'
 const router = createBrowserRouter([
   {path:'/',element:<RootLayout />,errorElement:<ErrorPage />,children:[
     {index:true,element:<Home />},
-      {path:"messages",element:<MessageList />},
+      {path:"messages",element:<MessagesList />},
       {path:"messages/:recieverId",element:<Messages />},
       {path:"bookmarks",element:<Bookmark />},
       {path:"users/:id",element:<Profile />},

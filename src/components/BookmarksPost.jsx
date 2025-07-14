@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 const BookmarksPost = ({post}) => {
   
   const [user,setUser] = useState({})
-  const[postBookmarked,setPostBookmarked] = useState(user?.userBookmarks?.bookmarks?.includes(post?._id))
+  const[postBookmarked,setPostBookmarked] = useState(user?.bookmarks?.includes(post?._id))
   
   const token = useSelector(state => state?.user?.currentUser?.token)
   const userId = useSelector(state => state?.user?.currentUser?.id) 
@@ -38,21 +38,21 @@ const BookmarksPost = ({post}) => {
 
   // fn to create bookmark
   const createBookmark = async() =>{
-    console.log("bookmark clicked")
-
+    
 try {
   const response = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${post?._id}/bookmark`,
     {withCredentials:true,
       headers:{Authorization:`Bearer ${token}`}
     }
   )
-console.log("response from bookmark",response)
+
   if(response?.data?.userBookmarks?.bookmarks?.includes(post?._id)){
+    alert("Post added to the bookmark")  
     setPostBookmarked(true)
-    alert("Post added to the bookmark")
+    
   }else{
-    setPostBookmarked(false)
     alert("Post removed from the bookmark")
+    setPostBookmarked(false)          
   }
 
 } catch (error) {
@@ -62,8 +62,8 @@ console.log("response from bookmark",response)
 
 
   return (
-    <button  className='feed__footer-bookmark' onClick={createBookmark}>
-      {postBookmarked ? <FaBookmark/> : <FaRegBookmark />}
+    <button  className='feed__footer-bookmark' onClick={createBookmark}>      
+        {postBookmarked ? <FaBookmark/> : <FaRegBookmark />}
     </button>
   )
 }

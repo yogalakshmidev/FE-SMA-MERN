@@ -11,6 +11,7 @@ const UserProfile = () => {
   const token = useSelector((state) => state?.user?.currentUser?.token);
   const loggedInUserId = useSelector((state) => state?.user?.currentUser?.id);
   const currentUser = useSelector((state) => state?.user?.currentUser);
+  
 
   const [user, setUser] = useState({});
   const [followsUser, setFollowsUser] = useState(
@@ -32,10 +33,10 @@ const UserProfile = () => {
       );
 
       setUser(response?.data?.user);
-      console.log("user details in myProfile",response?.data?.user)
+      // console.log("user details in myProfile",response?.data?.user)
       setFollowsUser(response?.data?.user?.followers?.includes(loggedInUserId));
-      console.log("avatar response from loggedinUser",response?.data?.user?.profilePhoto)
       setAvatar(response?.data?.user?.profilePhoto);
+      console.log("get avatar details",avatar)
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -43,30 +44,29 @@ const UserProfile = () => {
 
   
 
-  //////
+  ////// change Profile pic
   const changeAvatarHandler = async (e) => {
-    e.preventDefault();
+    e.preventDefault();        
     setAvatarTouched(true);
     console.log("going to change avatar",avatar)
     try {
       const postData = new FormData();
-      console.log("form data is",postData)
+      // console.log("form data is",postData)
       postData.set("avatar", avatar);
       console.log("form data after set avatar is",postData)
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/users/avatar`,
-        postData,
-        { withCredentials: true, headers: { Authorization: `Bearer ${token}` } }
+        postData,{ withCredentials: true, headers: { Authorization: `Bearer ${token}` } }
       );
-
+console.log("response for changing avatar",response?.data)
       dispatch(
         userActions?.changeCurrentUser({
           ...currentUser,
-          profilePhoto: response?.data?.profilePhoto,
+          profilePhoto: response?.data?.user?.profilePhoto
         }));
       navigate(0);
     } catch (error) {
-      console.log(error.response.data.message);
+      console.log(error);
     }
   };
 
@@ -90,7 +90,7 @@ const UserProfile = () => {
   useEffect(() => {
     getUser();
   }, [userId,followsUser,avatar]);
-
+// console.log("user details in userProfile",user?.profilePhoto,avatarTouched)
   return (
     <section className="profile">
       <div className="profile__container">
@@ -113,12 +113,11 @@ const UserProfile = () => {
           )}
           <input
             type="file"
-            name="avatar"
+            name="avatar"            
             id="avatar"
-            onChange={(e) => {
-              setAvatar(e.target.files[0]);
-              console.log("avatar changed value",avatar)
+            onChange={(e) => {setAvatar(e.target.files[0]);     
               setAvatarTouched(true);
+              // console.log("avatar changed value",avatar)
             }}
             accept="png,jpg,jpeg"
           />
@@ -136,10 +135,10 @@ const UserProfile = () => {
             <small>Followers</small>
           </li>
 
-          <li>
+          {/* <li>
             <h4>0</h4>
             <small>Likes</small>
-          </li>
+          </li> */}
         </ul>
 
         <div className="profile__actions-wrapper">
