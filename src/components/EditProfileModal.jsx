@@ -2,15 +2,12 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { uiSliceActions } from '../store/ui-slice'
-// import {useNavigate} from 'react-router-dom'
-
 
 const EditProfileModal = () => {
   const [userData,setUserData]  = useState({fullName: "", bio: ""})
   const dispatch = useDispatch()
   const token = useSelector(state => state?.user?.currentUser?.token)
   const id = useSelector(state => state?.user?.currentUser?.id)
-  // const navigate = useNavigate();
   
   const getUser = async () =>{
     try {
@@ -35,19 +32,20 @@ if(e.target.classList.contains('editProfile')){
 
 const updateUser = async() =>{
 try {
+  // console.log("user data for update",userData)
   const response = await axios.patch(`${import.meta.env.VITE_API_URL}/users/edit`,userData,{withCredentials: true, headers: {Authorization: `Bearer ${token}`}})
-console.log("response from updateProfile",response?.data?.user)
+console.log("response from updateProfile",response?.data)
+setUserData(response?.data)
+  dispatch(uiSliceActions.closeEditProfileModal())
   
-  
-  closeModal()
-  // navigate(0);
+  // closeModal()
 } catch (error) {
   console.log(error)
 }
 }
 
 const changeUserData = (e) =>{
-  console.log("changing user's data",e.target.value)
+  // console.log("changing user's data",e.target.value)
 setUserData(prevState => {
   return {...prevState,[e.target.name]:e.target.value}
 })
@@ -56,11 +54,12 @@ setUserData(prevState => {
     <section className='editProfile' onClick={e => closeModal(e)}>
       <div className='editProfile__container'>
         <h3>Edit Profile</h3>
-        <form onSubmit={updateUser}>
-          <input type = 'text' name= 'fullName' value={userData?.fullName} onChange={changeUserData} placeholder='fullName'/>
+                {/* <form onSubmit={updateUser}>      */}
+        <form>     
+             <input type = 'text' name= 'fullName' value={userData?.fullName} onChange={changeUserData} placeholder='fullName'/>
 
           <textarea name='bio' value={userData?.bio} onChange={changeUserData} placeholder='Bio' />
-          <button type='submit' className='btn primary'>Update</button>
+          <button type='button' onClick={updateUser}  className='btn primary'>Update</button>
         </form>
       </div>
 
