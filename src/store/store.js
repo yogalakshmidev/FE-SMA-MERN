@@ -1,7 +1,12 @@
-import {configureStore} from '@reduxjs/toolkit'
-import uiSlice from './ui-slice'
-import userSlice from './user-slice'
+import { configureStore } from '@reduxjs/toolkit'
+import uiReducer from './ui-slice'
+import userReducer from './user-slice'
 
-const store = configureStore({reducer:{ui: uiSlice.reducer, user: userSlice.reducer}})
+const store = configureStore({
+  reducer: {
+    ui: uiReducer,
+    user: userReducer,
+  }
+})
 
 export default store

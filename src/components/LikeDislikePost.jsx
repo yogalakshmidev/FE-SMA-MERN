@@ -1,50 +1,46 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { FaRegHeart } from 'react-icons/fa';
-import { useSelector } from 'react-redux'
-import { FcLike } from 'react-icons/fc';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { FaRegHeart } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { FcLike } from "react-icons/fc";
 
-const LikeDislikePost = (props) => {
-  const [post,setPost] = useState(props.post)
-  const userId = useSelector(state=> state?.user?.currentUser?.id);
-  const token = useSelector(state=> state?.user?.currentUser?.token);
-  const [postLiked,setPostLiked] = useState(post?.likes?.includes?.userId)
+const LikeDislikePost = ({ post, onUpdatePost }) => {
+  const [localPost, setLocalPost] = useState(post);
+  const userId = useSelector((state) => state?.user?.currentUser?.id);
+  const token = useSelector((state) => state?.user?.currentUser?.token);
+  const [postLiked, setPostLiked] = useState(false);
 
-const handleLikeDislikePost =  async () =>{
-  try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${post?._id}/like`,{withCredentials:true,
-      headers:{Authorization:`Bearer ${token}`}
-    })
-    // console.log("like data",response?.data)
-    setPost(response?.data)
-    
-    
-  } catch (error) {
-    console.log(error)
-  }
-}
+  // handle like/unlike
+  const handleLikeDislikePost = async () => {
+    try {
+      const response = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/posts/${localPost?._id}/like`,{},
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-// fn to check if the post is liked or not
-const handleCheckIfUserLikedPost = () =>{
-  if(post?.likes?.includes(userId)){
-    setPostLiked(true)
-  }else {
-    setPostLiked(false)
-  }
-}
+      const updatedPost = response?.data;
+      setLocalPost(updatedPost);
+      onUpdatePost?.(updatedPost); 
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-useEffect(()=>{
-  handleCheckIfUserLikedPost()
-  
-},[post,postLiked])
+  // check if user liked post
+  useEffect(() => {
+  setPostLiked(localPost?.likes?.includes(userId));
+}, [localPost?.likes, userId]);
+
 
   return (
-    <button className='feed__footer-comments' onClick={handleLikeDislikePost}>
-      
-      {postLiked ?  <FcLike /> :<FaRegHeart/>}
-      <small>{post?.likes?.length}</small>
+    <button className="feed__footer-comments" onClick={handleLikeDislikePost}>
+      {postLiked ? <FcLike /> : <FaRegHeart />}
+      <small>{localPost?.likes?.length}</small>
     </button>
-  )
-}
+  );
+};
 
-export default LikeDislikePost
+export default LikeDislikePost;

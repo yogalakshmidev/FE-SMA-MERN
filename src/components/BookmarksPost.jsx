@@ -1,71 +1,61 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { FaBookmark, FaRegBookmark } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
-const BookmarksPost = ({post}) => {
-  
-  const [user,setUser] = useState({})
-  const[postBookmarked,setPostBookmarked] = useState(user?.bookmarks?.includes(post?._id))
-  
-  const token = useSelector(state => state?.user?.currentUser?.token)
-  const userId = useSelector(state => state?.user?.currentUser?.id) 
-  
-    const getUser = async () =>{
-   
+const BookmarksPost = ({ post }) => {
+  const [postBookmarked, setPostBookmarked] = useState(false);
+
+  const currentUser = useSelector((state) => state?.user?.currentUser);
+
+  const userId = currentUser?._id || currentUser?.id;
+  const token = currentUser?.token?.accessToken || currentUser?.token; 
+
+  useEffect(() => {
+    const checkBookmark = async () => {
+      if (!token || !userId || !post?._id) return;
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/users/${userId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
+          }
+        );
+
+        const bookmarks = res?.data?.user?.bookmarks || [];
+        setPostBookmarked(bookmarks.includes(post?._id));
+      } catch (err) {
+        console.log("Bookmark check error:", err.response?.data || err.message);
+      }
+    };
+    checkBookmark();
+  }, [post?._id, userId, token]);
+
+  const toggleBookmark = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/${userId}`,
-        {withCredentials:true,
-          headers:{Authorization:`Bearer ${token}`}})
-
-        setUser(response?.data)
-
-        if(response?.data?.userBookmarks?.bookmarks?.includes(post?._id)){
-          setPostBookmarked(true)
-        }else{
-          setPostBookmarked(false)
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/posts/${post?._id}/bookmark`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         }
+      );
 
-    } catch (error) {
-      console.log(error.response.data.message)
+      const bookmarks = res?.data?.bookmarks || [];
+      setPostBookmarked(bookmarks.includes(post?._id));
+      alert("Bookmark clicked");
+    } catch (err) {
+      console.log("Bookmark toggle error:", err.response?.data || err.message);
     }
-  }
-
-  useEffect(()=>{
-    getUser()
-  },[user,postBookmarked])
-
-
-  // fn to create bookmark
-  const createBookmark = async() =>{
-    
-try {
-  const response = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${post?._id}/bookmark`,
-    {withCredentials:true,
-      headers:{Authorization:`Bearer ${token}`}
-    }
-  )
-
-  if(response?.data?.userBookmarks?.bookmarks?.includes(post?._id)){
-    alert("Post added to the bookmark")  
-    setPostBookmarked(true)
-    
-  }else{
-    alert("Post removed from the bookmark")
-    setPostBookmarked(false)          
-  }
-
-} catch (error) {
-  console.log(error)
-}
-  }
-
+  };
 
   return (
-    <button  className='feed__footer-bookmark' onClick={createBookmark}>      
-        {postBookmarked ? <FaBookmark/> : <FaRegBookmark />}
+    <button className="feed__footer-bookmark" onClick={toggleBookmark}>
+      {postBookmarked ? <FaBookmark /> : <FaRegBookmark />}
     </button>
-  )
-}
+  );
+};
 
-export default BookmarksPost
+export default BookmarksPost;

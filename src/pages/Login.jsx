@@ -26,10 +26,10 @@ const Login = () => {
         `${import.meta.env.VITE_API_URL}/users/login`,
         userData
       );
-      
+
       if (response.status == 200) {
         dispatch(userActions.changeCurrentUser(response?.data));
-        console.log("change current user details are",response?.data)
+        // console.log("change current user details are", response?.data);
         localStorage.setItem("current User", JSON.stringify(response?.data));
         navigate("/");
       }
@@ -67,7 +67,9 @@ const Login = () => {
           <p>
             Don't have an account?<Link to="/register">Sign Up</Link>
           </p>
-
+          <p>
+            Forgot Password?<Link to="/forgot-password">Click Here</Link>
+          </p>
           <button type="submit" className="btn primary">
             Login
           </button>

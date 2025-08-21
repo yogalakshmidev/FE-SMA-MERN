@@ -1,68 +1,64 @@
-import React,{useEffect, useState} from 'react'
-import {Link,useNavigate} from 'react-router-dom'
-import {CiSearch} from 'react-icons/ci'
-import ProfileImage from './ProfileImage'
-import {useSelector} from 'react-redux'
-import axios from 'axios'
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { CiSearch } from 'react-icons/ci';
+import ProfileImage from './ProfileImage';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
+  const navigate = useNavigate();
 
-const [user,setUser] = useState({})
-const [profilePhoto,setProfilePhoto] = useState({})
   const userId = useSelector(state => state?.user?.currentUser?.id);
   const token = useSelector(state => state?.user?.currentUser?.token);
-  
+  const profilePhoto = useSelector(state => state?.user?.currentUser?.profilePhoto);
+  const fullName = useSelector(state => state?.user?.currentUser?.fullName);
 
-  const navigate = useNavigate() 
-
-  // get user from database
-  const getUser = async() =>{
-    try {
-     const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/${userId}`, {withCredentials: true, headers:{Authorization: `Bearer ${token}`}}) 
-     setUser(response?.data)
-     setProfilePhoto(response?.data?.user?.profilePhoto)
-     console.log("get user from navbar",response?.data,response?.data?.user?.profilePhoto)
-    } catch (error) {
-      console.log(error)
+  // redirect to login page if the user has no token
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
     }
-  }
+  }, [token, navigate]);
 
-useEffect(()=>{
-  getUser()
-},[])
+  // log user out after an hour
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate('/logout');
+    }, 1000 * 60 * 60);
 
-// redirect to login page if the user has no token
-useEffect(()=>{
-  if(!token){
-    navigate('/login')
-  }
-},[])
-
-// log user out after an hour
-useEffect(()=>{
-  setTimeout(() => {
-    navigate('/logout')
-  }, 1000*60*60);
-},[])
+    return () => clearTimeout(timer); // cleanup
+  }, [navigate]);
 
   return (
     <nav className="navbar">
-      <div className='container navbar__container'>
-        <Link to='/' className = 'navbar__logo'>SMA-MERN</Link>
-        <form className='navbar__search'>
-          <input type='search' placeholder='Search' />
-          <button type='submit'> <CiSearch /></button>
-          </form>
-<div className='navbar__right'>
-  <Link to={`/users/${userId}`} className='navbar__profile'>
-  <ProfileImage image={profilePhoto}/>
-  </Link>
-  {token? 
-  <Link to='/logout'>Logout</Link>:<Link to='/login'>Login</Link>}
-</div>
-          </div>
-          </nav>
-  )
-}
+      <div className="container navbar__container">
+        <Link to="/" className="navbar__logo">
+          SMA-MERN
+        </Link>
 
-export default Navbar
+        <form className="navbar__search">
+          <input type="search" placeholder="Search" />
+          <button type="submit">
+            <CiSearch />
+          </button>
+        </form>
+
+        <div className="navbar__right">
+          {userId && (
+            <Link to={`/users/${userId}`} className="navbar__profile">
+              <ProfileImage image={profilePhoto} />
+              {/* Optional: show name beside avatar */}
+              {/* <span>{fullName}</span> */}
+            </Link>
+          )}
+          {token ? (
+            <Link to="/logout">Logout</Link>
+          ) : (
+            <Link to="/login">Login</Link>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

@@ -12,21 +12,28 @@ const Home = () => {
     const token = useSelector(state => state?.user?.currentUser?.token)
 
 
-    // to create post
-  const createPost = async (data) => {
-    setError("")
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/posts`, data, {withCredentials: true, 
-        headers:{Authorization: `Bearer ${token}`}})
-
-      const newPost = response?.data;
-      // console.log("response for the post",newPost)
-      setPosts([newPost,...posts])
-    } catch (err) {
-      setError(err?.response?.data?.message)
-    }
     
+ // to create post
+const createPost = async (data) => {
+  setError("");
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/posts`,
+      data,
+      {
+        withCredentials: true,
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    const newPost = response?.data;
+    // instantly add new post to feed
+    setPosts(prevPosts => [newPost, ...prevPosts]);
+  } catch (err) {
+    setError(err?.response?.data?.message);
   }
+};
+
 
   // to get posts
   const getPosts = async() => {
@@ -36,7 +43,7 @@ const Home = () => {
         {withCredentials: true,
         headers: {Authorization: `Bearer ${token}`}})
 
-        setPosts(response?.data.posts)
+        setPosts(response?.data?.posts)
         
     } catch (err) {
       console.log(err.response.data.message)
@@ -46,14 +53,14 @@ const Home = () => {
 
 useEffect(() => {
 getPosts()
-},[setPosts])
+},[])
 
 // console.log("post recently added",posts);
   return (
     <section className = 'mainArea'>
       <CreatePost onCreatePost = {createPost} error = {error} />
       
-      <Feeds posts = {posts} onSetPosts = {setPosts}/>
+      <Feeds posts = {posts} setPosts = {setPosts}/>
       </section>
   )
 }

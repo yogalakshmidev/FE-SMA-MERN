@@ -14,7 +14,7 @@ const EditPostModal = ({onUpdatePost}) => {
   const getPost = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${editPostId}`,{withCredentials: true, headers: {Authorization:`Bearer ${token}`}})
-       console.log("post details before update",response?.data)
+      //  console.log("post details before update",response?.data)
       setBody(response?.data?.post?.body)
     } catch (error) {
       console.log(error)
