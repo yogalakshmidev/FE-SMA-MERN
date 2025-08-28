@@ -28,18 +28,16 @@ const Bookmark = () => {
     getBookmarks();
   }, [token]);
 
-  // Update bookmarks instantly when toggled
-  const handleBookmarkChange = (postId, isBookmarked) => {
-    if (!isBookmarked) {
-      setBookmarks(prev => prev.filter(p => p._id !== postId));
-    } else {
-      
-      const post = bookmarks.find(p => p._id === postId);
-      if (!post) {
-        getBookmarks(); 
-      }
-    }
-  };
+
+const handleBookmarkChange = (postId, isBookmarked) => {
+
+  if (isBookmarked) {
+    setBookmarks(prev => [...prev, postId]); // add
+  } else {
+    setBookmarks(prev => prev.filter(id => id !== postId)); // remove
+  }
+
+};
 
   return (
     <section>
@@ -47,9 +45,14 @@ const Bookmark = () => {
         bookmarks?.length < 1 ?
           <p className='center'>No Posts bookmarked</p> :
           bookmarks.map(bookmark =>
-            <Feed key={bookmark?._id} post={bookmark} >
-              <BookmarksPost post={bookmark} onBookmarkChange={handleBookmarkChange} />
-            </Feed>
+       bookmarks.map(bookmark =>
+  <Feed 
+    key={bookmark?._id} 
+    post={bookmark}
+    onBookmarkChange={handleBookmarkChange}   
+  />
+)
+
           )
       }
     </section>

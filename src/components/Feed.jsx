@@ -12,7 +12,7 @@ import BookmarksPost from "./BookmarksPost";
 import { uiSliceActions } from "../store/ui-slice";
 import { HiDotsHorizontal } from "react-icons/hi";
 
-const Feed = ({ post, onDeletePost }) => {
+const Feed = ({ post, onDeletePost,onBookmarkChange }) => {
   const [creator, setCreator] = useState({});
   const token = useSelector((state) => state?.user?.currentUser?.token);
   const userId = useSelector((state) => state?.user?.currentUser?.id);
@@ -125,7 +125,8 @@ const Feed = ({ post, onDeletePost }) => {
             <IoMdShare />
           </button>
         </div>
-        <BookmarksPost post={post} />
+        <BookmarksPost post={post} onBookmarkChange={onBookmarkChange} />
+
       </footer>
     </article>
   );

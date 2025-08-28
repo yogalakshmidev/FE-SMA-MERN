@@ -19,19 +19,30 @@ const Register = () => {
 
     const registerUser = async (e) => {
       e.preventDefault();
-      try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/register`,userData)
-        
-        if(response.statusText == 'OK'){
-          navigate('/login')
-        }
-        
-      } catch (err) {
-        setError(err.response?.data?.message)
-      } 
+       if (userData.password !== userData.confirmPassword) {
+    setError("Passwords do not match");
+    return;
+  }
+     try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/users/register`,
+      {
+        fullName: userData.fullName,
+        email: userData.email,
+        password: userData.password,
+        confirmPassword: userData.confirmPassword, 
+      }
+    );
+
+    if (response.status === 201) {
+      navigate("/login");
     }
-     
-//  console.log("User details are",userData)
+  } catch (err) {
+    console.log("Register error:", err.response?.data);
+    setError(err.response?.data?.message || "Something went wrong");
+  }
+};
+
     return (
       <section className='register'>
         <div className='container register__container'>

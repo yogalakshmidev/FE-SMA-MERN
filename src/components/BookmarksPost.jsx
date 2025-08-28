@@ -2,12 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { useSelector } from "react-redux";
-
-const BookmarksPost = ({ post }) => {
+const BookmarksPost = ({ post, onBookmarkChange }) => {
   const [postBookmarked, setPostBookmarked] = useState(false);
 
   const currentUser = useSelector((state) => state?.user?.currentUser);
-
   const userId = currentUser?._id || currentUser?.id;
   const token = currentUser?.token?.accessToken || currentUser?.token; 
 
@@ -22,7 +20,6 @@ const BookmarksPost = ({ post }) => {
             withCredentials: true,
           }
         );
-
         const bookmarks = res?.data?.user?.bookmarks || [];
         setPostBookmarked(bookmarks.includes(post?._id));
       } catch (err) {
@@ -44,8 +41,14 @@ const BookmarksPost = ({ post }) => {
       );
 
       const bookmarks = res?.data?.bookmarks || [];
-      setPostBookmarked(bookmarks.includes(post?._id));
-      alert("Bookmark clicked");
+      const isBookmarked = bookmarks.includes(post?._id);
+      setPostBookmarked(isBookmarked);
+      alert('bookmark clicked')
+
+      // 🔥 call parent callback to update instantly
+      if (onBookmarkChange) {
+        onBookmarkChange(post._id, isBookmarked);
+      }
     } catch (err) {
       console.log("Bookmark toggle error:", err.response?.data || err.message);
     }

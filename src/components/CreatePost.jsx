@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const CreatePost = ({ onPostCreated }) => {
+const CreatePost = ({ onCreatePost,error }) => {
   const [body, setBody] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const token = useSelector((state) => state?.user?.currentUser?.token);
+  const fileInputRef = useRef(null);
+  // const token = useSelector((state) => state?.user?.currentUser?.token);
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -21,32 +22,16 @@ const CreatePost = ({ onPostCreated }) => {
     const formData = new FormData();
     formData.append("body", body);
     if (image) formData.append("image", image);
-
-    try {
-      setLoading(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/posts`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("Post created:", response.data);
-      onPostCreated?.(response.data);
-
-      // reset form
-      setBody("");
-      setImage(null);
-    } catch (error) {
-      console.error(error.response?.data || error.message);
-      alert(error.response?.data?.message || "Error creating post");
-    } finally {
-      setLoading(false);
+    
+    setLoading(true);
+    await onCreatePost(formData);  
+    // reset form
+    setBody("");
+    setImage(null);
+    if(fileInputRef.current){
+      fileInputRef.current.value="";
     }
+    setLoading(false);
   };
 
   return (
@@ -59,10 +44,11 @@ const CreatePost = ({ onPostCreated }) => {
       /></div>
        <div className = 'createPost__bottom'>
         
-      <input type="file" accept="image/*" onChange={handleImageChange} />
+      <input type="file" accept="image/*" onChange={handleImageChange}  ref={fileInputRef} />
       <button type="submit" disabled={loading}>
         {loading ? "Posting..." : "Post"}
       </button>
+       {error && <p className="error">{error}</p>}
       </div>
     </form>
   );

@@ -14,21 +14,21 @@ const Home = () => {
 
     
  // to create post
-const createPost = async (data) => {
+const createPost = async (formData) => {
   setError("");
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/posts`,
-      data,
+      formData,
       {
         withCredentials: true,
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}` },
       }
     );
 
-    const newPost = response?.data;
-    // instantly add new post to feed
-    setPosts(prevPosts => [newPost, ...prevPosts]);
+    await getPosts()
   } catch (err) {
     setError(err?.response?.data?.message);
   }
@@ -55,8 +55,7 @@ useEffect(() => {
 getPosts()
 },[])
 
-// console.log("post recently added",posts);
-  return (
+return (
     <section className = 'mainArea'>
       <CreatePost onCreatePost = {createPost} error = {error} />
       
