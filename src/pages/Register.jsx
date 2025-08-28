@@ -35,6 +35,7 @@ const Register = () => {
     );
 
     if (response.status === 201) {
+      alert("🎉 Registration successful! Please login to continue.");
       navigate("/login");
     }
   } catch (err) {
