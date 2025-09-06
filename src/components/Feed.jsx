@@ -20,7 +20,7 @@ const Feed = ({ post, onDeletePost,onBookmarkChange }) => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  // Determine image URL (backend or external)
+  
   const getImageURL = (imagePath) => {
     if (!imagePath) return null;
     return imagePath.startsWith("http")

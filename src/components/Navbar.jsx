@@ -25,7 +25,7 @@ const Navbar = () => {
       navigate('/logout');
     }, 1000 * 60 * 60);
 
-    return () => clearTimeout(timer); // cleanup
+    return () => clearTimeout(timer); 
   }, [navigate]);
 
   return (

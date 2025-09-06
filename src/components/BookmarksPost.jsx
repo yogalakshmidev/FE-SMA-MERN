@@ -45,7 +45,7 @@ const BookmarksPost = ({ post, onBookmarkChange }) => {
       setPostBookmarked(isBookmarked);
       alert('bookmark clicked')
 
-      // 🔥 call parent callback to update instantly
+      
       if (onBookmarkChange) {
         onBookmarkChange(post._id, isBookmarked);
       }
