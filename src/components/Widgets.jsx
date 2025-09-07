@@ -6,7 +6,7 @@ const Widgets = () => {
   return (
     <section className='widgets'>
       <FriendRequests/>
-      <MessagesList />
+      {/* <MessagesList /> */}
     </section>
   )
 }

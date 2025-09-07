@@ -1,9 +1,8 @@
- @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
   --color-primary: #3385ff;
-  --color-primary-variant:  #d3e4ff;
+  --color-primary-variant: #d3e4ff;
   --color-gray-0: #f8f9fb;
   --color-gray-100: #e3e7ed;
   --color-gray-200: #cbd1da;
@@ -43,7 +42,7 @@
 
 .red {
   --color-primary: #df2d56;
-  --color-primary-variant:  rgba(223, 45, 86, 0.2);
+  --color-primary-variant: rgba(223, 45, 86, 0.2);
 }
 
 .blue {
@@ -104,7 +103,12 @@ img {
   object-fit: cover;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--color-gray-900);
 }
 
@@ -194,19 +198,6 @@ button {
   padding: 1rem 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*==========================================================
 REGISTER & LOGIN
 ==========================================================*/
@@ -264,7 +255,6 @@ REGISTER & LOGIN
   padding: 0;
 }
 
-
 .register form > p a {
   color: var(--color-primary);
   font-weight: 500;
@@ -276,23 +266,6 @@ REGISTER & LOGIN
   padding: 0.6rem 1.5rem;
   border-radius: var(--radius-2);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*==========================================================
 ERROR PAGE
@@ -308,22 +281,6 @@ ERROR PAGE
 .errorPage__container {
   text-align: center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*==========================================================
 NAVBAR
@@ -399,25 +356,6 @@ NAVBAR
   gap: 2.5rem;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*==========================================================
 MAIN AREA
 ==========================================================*/
@@ -433,7 +371,6 @@ MAIN AREA
   margin-top: 1.2rem;
   position: relative;
 }
-
 
 /*==========================================================
 SIDEBAR
@@ -496,29 +433,6 @@ SIDEBAR
   font-size: 0.7rem;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*==========================================================
 CREATE POST
 ==========================================================*/
@@ -554,7 +468,7 @@ CREATE POST
   color: var(--color-gray-900);
 }
 
-.createPost__image{
+.createPost__image {
   cursor: pointer;
 }
 
@@ -573,7 +487,7 @@ CREATE POST
 }
 
 .createPost__actions input {
-  visibility:collapse;
+  visibility: collapse;
   width: 0;
 }
 
@@ -587,12 +501,6 @@ CREATE POST
   padding: 0.8rem 1.8rem;
   border-radius: var(--radius-3);
 }
-
-
-
-
-
-
 
 /*==========================================================
 FOR YOU OR FOLLOWING
@@ -619,23 +527,6 @@ FOR YOU OR FOLLOWING
   background: var(--color-primary);
   color: var(--color-gray-0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*==========================================================
 FEEDS
@@ -739,23 +630,6 @@ FEEDS
   font-size: 1rem;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*==========================================================
 SINGLE POST
 ==========================================================*/
@@ -858,26 +732,6 @@ SINGLE POST
   height: fit-content;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*==========================================================
 WIDGETS
 ==========================================================*/
@@ -885,7 +739,6 @@ WIDGETS
   position: sticky;
   top: 5rem;
 }
-
 
 /*==========================================================
 SUGGESTED FRIENDS
@@ -910,12 +763,11 @@ SUGGESTED FRIENDS
    padding: 0.8rem;
   border-radius: var(--radius-3);
   transition: var(--transition); */
-  padding:0.6rem;
-   border: 1px solid #ddd;
+  padding: 0.6rem;
+  border: 1px solid #ddd;
   border-radius: 8px;
   margin-bottom: 0.8rem;
   background: #fff;
-
 }
 
 .friendRequest:hover {
@@ -925,17 +777,28 @@ SUGGESTED FRIENDS
 .friendRequest__info {
   display: flex;
   /* gap: 1rem; */
-  gap:0.8rem;
+  gap: 0.8rem;
   align-items: center;
 }
 
 .friendRequest__avatar {
-  width: 50px;           /* fixed square */
-  height: 50px;
-  border-radius: 50%;    /* make it circular */
-  object-fit: cover;     /* crop instead of stretch */
-  flex-shrink: 0;        /* prevent shrinking */
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  overflow: hidden;
 }
+.friendRequest__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* .friendRequest__avatar {
+  width: 50px;           
+  height: 50px;
+  border-radius: 50%;    
+  object-fit: cover;     
+  flex-shrink: 0;        
+} */
 
 .friendRequest__info h4 {
   margin: 0;
@@ -986,26 +849,6 @@ SUGGESTED FRIENDS
   color: var(--color-gray-0);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*==========================================================
 MESSAGE LIST OR CONVERSATIONS
 ==========================================================*/
@@ -1022,7 +865,6 @@ MESSAGE LIST OR CONVERSATIONS
 
 .messageList h3 {
   margin: 1.2rem;
-  
 }
 
 .messageList__item {
@@ -1052,26 +894,6 @@ MESSAGE LIST OR CONVERSATIONS
   color: var(--color-gray-600);
   margin-top: 0.4rem;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*==========================================================
 PROFILE
@@ -1110,7 +932,8 @@ PROFILE
   opacity: 1;
 }
 
-.profile h4, .profile small {
+.profile h4,
+.profile small {
   text-align: center;
   display: block;
 }
@@ -1170,12 +993,6 @@ PROFILE
   padding: 0 3rem;
 }
 
-
-
-
-
-
-
 /*==========================================================
 EDIT PROFILE
 ==========================================================*/
@@ -1206,7 +1023,8 @@ EDIT PROFILE
   margin-top: 2rem;
 }
 
-.editProfile input, .editProfile textarea {
+.editProfile input,
+.editProfile textarea {
   background: var(--color-gray-100);
   padding: 1rem;
   border-radius: var(--radius-3);
@@ -1218,30 +1036,6 @@ EDIT PROFILE
 .editProfile textarea {
   min-height: 8rem;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*==========================================================
 HEADER INFO
@@ -1255,28 +1049,6 @@ HEADER INFO
   margin: 0 auto 1.2rem;
   border-radius: var(--radius-3);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*==========================================================
 THEME
@@ -1298,8 +1070,9 @@ THEME
 
 @keyframes animateModal {
   from {
-    opacity: 0
-  } to {
+    opacity: 0;
+  }
+  to {
     opacity: 1;
   }
 }
@@ -1373,39 +1146,14 @@ THEME
   background: black;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*==========================================================
 FEED SKELETON
 ==========================================================*/
- .feedSkeleton {
+.feedSkeleton {
   display: flex;
   flex-direction: column;
   gap: 1rem;
- }
+}
 
 .feedSkeleton__item {
   height: fit-content;
@@ -1455,8 +1203,6 @@ FEED SKELETON
   border-radius: 50%;
 }
 
-
-
 .feedSkeleton__item::before {
   content: "";
   display: block;
@@ -1467,37 +1213,20 @@ FEED SKELETON
   animation: animateFeedSkeleton 3s ease infinite;
 }
 
-
 @keyframes animateFeedSkeleton {
   0% {
     left: -100%;
     opacity: 1;
-  } 50% {
+  }
+  50% {
     left: calc(100% - 16rem);
     opacity: 0;
-  } 100% {
+  }
+  100% {
     left: 0;
     opacity: 0;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*==========================================================
 EDIT POST
@@ -1539,27 +1268,6 @@ EDIT POST
   align-self: end;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*==========================================================
 MESSAGE BOX
 ==========================================================*/
@@ -1569,7 +1277,7 @@ MESSAGE BOX
   overflow-x: hidden;
   position: sticky;
   top: 0;
-  bottom:0
+  bottom: 0;
 }
 
 .messagesBox__header {
@@ -1651,30 +1359,6 @@ MESSAGE BOX
   color: white;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*==========================================================
 MEDIA QUERIES (small screens)
 ==========================================================*/
@@ -1728,7 +1412,6 @@ MEDIA QUERIES (small screens)
     place-items: center;
   }
 
-
   .theme__container {
     width: auto;
   }
@@ -1737,16 +1420,78 @@ MEDIA QUERIES (small screens)
     width: var(--container-w-sm);
   }
 
-  
-.editPost__container {
-  width: var(--container-w-sm);
+  .editPost__container {
+    width: var(--container-w-sm);
+  }
 }
-}
-
 
 .createPost__bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px; /* optional spacing between elements */
+}
+
+/* ---------Story thumbnail container------------------ */
+.stories-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.create-story {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.create-story textarea {
+  padding: 10px;
+  resize: none;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.stories-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.story-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.story-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.story-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.story-media img,
+.story-media video {
+  width: 100%;
+  height: 350px; /* fixed consistent height */
+  border-radius: 8px;
+  object-fit: cover; /* fill card without stretching */
+}
+
+.story-text {
+  font-size: 14px;
+  color: #333;
 }

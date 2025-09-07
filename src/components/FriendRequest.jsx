@@ -20,15 +20,19 @@ const FriendRequest = ({ friend, removeFriend, addFriendBack }) => {
 
       const updatedFollowing = res.data.currentUserFollowing || [];
       dispatch(updateFollowing(updatedFollowing));
-       window.dispatchEvent(new CustomEvent("friend-followed", { detail: friend }));
+      window.dispatchEvent(
+        new CustomEvent("friend-followed", { detail: friend })
+      );
 
-     removeFriend(friend._id); // remove from suggestions
+      removeFriend(friend._id); // remove from suggestions
     } catch (err) {
-      console.error("Error following user:", err.response?.data?.message || err.message);
+      console.error(
+        "Error following user:",
+        err.response?.data?.message || err.message
+      );
     }
   };
 
-  
   const handleDeny = () => removeFriend(friend._id);
 
   return (
@@ -49,7 +53,10 @@ const FriendRequest = ({ friend, removeFriend, addFriendBack }) => {
         </div>
       </div>
       <div className="friendRequest__actions">
-        <button className="friendRequest__actions-approve" onClick={handleAccept}>
+        <button
+          className="friendRequest__actions-approve"
+          onClick={handleAccept}
+        >
           <FaCheck />
         </button>
         <button className="friendRequest__actions-cancel" onClick={handleDeny}>

@@ -16,6 +16,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import StoriesFeed from "./components/StoriesFeed";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "messages", element: <MessagesList /> },
       { path: "messages/:recieverId", element: <Messages /> },
+        { path: "stories", element: <StoriesFeed /> },
       { path: "bookmarks", element: <Bookmark /> },
       { path: "users/:id", element: <Profile  /> },
       { path: "/posts/:id", element: <SinglePost /> },

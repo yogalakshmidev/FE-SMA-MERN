@@ -30,7 +30,7 @@ const Login = () => {
       if (response.status == 200) {
         dispatch(userActions.changeCurrentUser(response?.data));
         // console.log("change current user details are", response?.data);
-        localStorage.setItem("current User", JSON.stringify(response?.data));
+        localStorage.setItem("currentUser", JSON.stringify(response?.data));
         navigate("/");
       }
     } catch (err) {

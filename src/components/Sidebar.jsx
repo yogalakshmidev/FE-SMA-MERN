@@ -6,6 +6,7 @@ import {FaRegBookmark} from 'react-icons/fa'
 import {PiPaintBrushBold} from 'react-icons/pi'
 import {useDispatch} from 'react-redux'
 import {uiSliceActions} from '../store/ui-slice'
+import { FaMemory } from 'react-icons/fa'
 
 const Sidebar = () => {
 
@@ -24,9 +25,14 @@ const openThemeModal= () => {
       <p>Home</p>
       </NavLink>
 
-      <NavLink to = '/messages' className={`sidebar__item ${({isActive}) => isActive ? "active" : ""}`}>
+      {/* <NavLink to = '/messages' className={`sidebar__item ${({isActive}) => isActive ? "active" : ""}`}>
       <i className='sidebar__icon'><GoMail/> </i>
       <p>Messages</p>
+      </NavLink> */}
+
+      <NavLink to = '/stories' className={`sidebar__item ${({isActive}) => isActive ? "active" : ""}`}>
+      <i className='sidebar__icon'><FaMemory/> </i>
+      <p>Stories</p>
       </NavLink>
 
 
