@@ -4,6 +4,8 @@
     -Registration
     -Login
     -News Feed
+    -Stories
+    -Search Option
     -Posts
     -Comments
     -Likes
@@ -16,6 +18,14 @@
     User can able to enter into the website by giving the correct credentials and other details...After validation , the user can enter into the Home page
 ## News Feed
   It displays all the post that are posted in the website and also arrange them in the sorting order 
+
+##  Stories:
+    In this the user can able to upload both images and videos but video upload take little bit time compare to images..
+    All the stories that are posted in this are deleted automatically within a day
+
+## Search Option:
+    The user can able to find the users by searching their name in the search bar..
+    
 ##  Posts
   The user can able to create,edit, and delete the post that are created by the loggedInUsers
 ## Comments:

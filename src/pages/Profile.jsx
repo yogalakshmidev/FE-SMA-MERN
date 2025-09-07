@@ -17,13 +17,10 @@ const Profile = () => {
   const { id: userId } = useParams();
   const token = useSelector((state) => state?.user?.currentUser?.token);
   const currentUserId = useSelector((state) => state?.user?.currentUser?.id);
+  const following = useSelector((state) => state.user.currentUser?.following || []);
 
-  const editPostModalOpen = useSelector(
-    (state) => state?.ui?.editPostModalOpen
-  );
-  const editProfileModalOpen = useSelector(
-    (state) => state?.ui?.editProfileModalOpen
-  );
+  const editPostModalOpen = useSelector((state) => state?.ui?.editPostModalOpen);
+  const editProfileModalOpen = useSelector((state) => state?.ui?.editProfileModalOpen);
 
   const dispatch = useDispatch();
 
@@ -41,7 +38,6 @@ const Profile = () => {
           withCredentials: true,
         }
       );
-
       setUser(userRes.data.user);
 
       // Get user posts
@@ -52,17 +48,18 @@ const Profile = () => {
           withCredentials: true,
         }
       );
-
       setUserPosts(postsRes.data.posts || []);
     } catch (err) {
-      console.log(err);
+      console.error("Error fetching user data:", err.response?.data?.message || err.message);
     }
     setIsLoading(false);
   };
 
   useEffect(() => {
-    getUserData();
-  }, [userId]);
+    if (userId && token) {
+      getUserData();
+    }
+  }, [userId, token]); 
 
   // ------------------------------
   // Follow / Unfollow logic
@@ -86,7 +83,7 @@ const Profile = () => {
       // update Redux with new following list
       dispatch(updateFollowing(res.data.currentUserFollowing));
     } catch (err) {
-      console.log(err);
+      console.error("Error follow/unfollow:", err.response?.data?.message || err.message);
     }
   };
 
@@ -101,7 +98,7 @@ const Profile = () => {
       });
       setUserPosts((prev) => prev.filter((p) => p._id !== postId));
     } catch (err) {
-      console.log(err);
+      console.error("Error deleting post:", err.response?.data?.message || err.message);
     }
   };
 
@@ -112,9 +109,13 @@ const Profile = () => {
         currentUserId={currentUserId}
         handleFollowToggle={handleFollowToggle}
       />
-      <HeaderInfo text={`${user?.fullName}'s posts`} />
+
+      <HeaderInfo text={`${user?.fullName || "User"}'s posts`} />
+
       <section className="profile__posts">
-        {userPosts?.length < 1 ? (
+        {isLoading ? (
+          <p className="center">Loading posts...</p>
+        ) : userPosts?.length < 1 ? (
           <p className="center">No posts by this user</p>
         ) : (
           userPosts.map((post) => (
