@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit"
+
 
 const userSlice = createSlice({
   name: "user",
@@ -25,23 +26,31 @@ const userSlice = createSlice({
         localStorage.setItem("currentUser", JSON.stringify(state.currentUser))
       }
     },
+    
+    updateFollowing: (state, action) => {
+        if (state.currentUser) {
+        state.currentUser.following = Array.isArray(action.payload)
+          ? action.payload.map(String) // normalize to strings
+          : [];
+        localStorage.setItem("currentUser", JSON.stringify(state.currentUser));
+        }
+},
+
     setSocket: (state, action) => { state.socket = action.payload },
     setOnlineUsers: (state, action) => { state.onlineUsers = action.payload },
     setConversations: (state, action) => { state.conversations = action.payload },
   }
 })
-
 export const {
   changeCurrentUser,
   updateProfilePhoto,
   updateUserDetails,
+  updateFollowing,   
   setSocket,
   setOnlineUsers,
   setConversations
 } = userSlice.actions
 
+export const userActions = userSlice.actions 
 
-export const userActions = userSlice.actions;
-
-export default userSlice.reducer   
-
+export default userSlice.reducer

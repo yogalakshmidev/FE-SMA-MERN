@@ -4,8 +4,9 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { LuUpload } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa";
-import { userActions } from "../store/user-slice";
+import { userActions,updateFollowing } from "../store/user-slice";
 import { uiSliceActions } from "../store/ui-slice";
+
 
 const UserProfile = ({ onUserUpdate }) => {
   const dispatch = useDispatch();
@@ -18,7 +19,9 @@ const UserProfile = ({ onUserUpdate }) => {
   const [user, setUser] = useState({});
   const [avatar, setAvatar] = useState(null);
   const [avatarTouched, setAvatarTouched] = useState(false);
-  const [followsUser, setFollowsUser] = useState(false);
+  const following = useSelector((state) => state.user.currentUser?.following || []);
+  const followsUser = following.map(String).includes(String(user?._id));
+
 
   // Fetch user info
   const getUser = async () => {
@@ -30,10 +33,13 @@ const UserProfile = ({ onUserUpdate }) => {
 
       const fetchedUser = response?.data?.user;
       setUser(fetchedUser);
-      setFollowsUser(fetchedUser?.followers?.includes(loggedInUserId) || false);
+      setFollowsUser(
+   (fetchedUser?.followers || []).map(String).includes(String(loggedInUserId))
+ );
+
       setAvatar(fetchedUser?.profilePhoto || null);
 
-      // Notify parent to update posts if needed
+      
       if (onUserUpdate) onUserUpdate(fetchedUser);
     } catch (error) {
       console.error("Error fetching user:", error.response?.data?.message || error.message);
@@ -77,20 +83,26 @@ const UserProfile = ({ onUserUpdate }) => {
   };
 
   // Follow / Unfollow
-  const followUnfollowUser = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/users/${userId}/follow-unfollow`,
-        { withCredentials: true, headers: { Authorization: `Bearer ${token}` } }
-      );
+const followUnfollowUser = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/users/${userId}/follow-unfollow`,
+      { withCredentials: true, headers: { Authorization: `Bearer ${token}` } }
+    );
 
-      const updatedFollowers = response?.data?.followers || [];
-      setFollowsUser(updatedFollowers.includes(loggedInUserId));
-      setUser((prev) => ({ ...prev, followers: updatedFollowers }));
-    } catch (error) {
-      console.error("Error following/unfollowing:", error.response?.data?.message || error.message);
-    }
-  };
+    const updatedFollowers = response?.data?.updatedUser?.followers || [];
+    setUser((prev) => ({ ...prev, followers: updatedFollowers }));
+
+    const updatedFollowing = Array.isArray(response?.data?.currentUserFollowing)
+      ? response.data.currentUserFollowing
+      : currentUser?.following || [];
+
+    dispatch(userActions.updateFollowing(updatedFollowing));
+  } catch (error) {
+    console.error("Error following/unfollowing:", error.response?.data?.message || error.message);
+  }
+};
+
 
   const openEditProfileModal = () => {
     dispatch(uiSliceActions.openEditProfileModal());
@@ -106,6 +118,9 @@ const UserProfile = ({ onUserUpdate }) => {
           encType="multipart/form-data"
         >
           <img src={user?.profilePhoto || "/default-avatar.png"} alt={user?.fullName} />
+
+            {user?._id === loggedInUserId && (
+    <>
           {!avatarTouched ? (
             <label htmlFor="avatar" className="profile__image-edit">
               <LuUpload />
@@ -124,6 +139,8 @@ const UserProfile = ({ onUserUpdate }) => {
               setAvatarTouched(true);
             }}
           />
+          </>
+            )}
         </form>
 
         {/* User Info */}

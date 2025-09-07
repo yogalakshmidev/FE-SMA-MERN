@@ -906,10 +906,16 @@ SUGGESTED FRIENDS
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  padding: 0.8rem;
+  /* gap: 1rem; 
+   padding: 0.8rem;
   border-radius: var(--radius-3);
-  transition: var(--transition);
+  transition: var(--transition); */
+  padding:0.6rem;
+   border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  background: #fff;
+
 }
 
 .friendRequest:hover {
@@ -918,8 +924,27 @@ SUGGESTED FRIENDS
 
 .friendRequest__info {
   display: flex;
-  gap: 1rem;
+  /* gap: 1rem; */
+  gap:0.8rem;
   align-items: center;
+}
+
+.friendRequest__avatar {
+  width: 50px;           /* fixed square */
+  height: 50px;
+  border-radius: 50%;    /* make it circular */
+  object-fit: cover;     /* crop instead of stretch */
+  flex-shrink: 0;        /* prevent shrinking */
+}
+
+.friendRequest__info h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.friendRequest__info small {
+  color: #666;
+  font-size: 0.85rem;
 }
 
 .friendRequest__image {
@@ -1716,4 +1741,12 @@ MEDIA QUERIES (small screens)
 .editPost__container {
   width: var(--container-w-sm);
 }
+}
+
+
+.createPost__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px; /* optional spacing between elements */
 }

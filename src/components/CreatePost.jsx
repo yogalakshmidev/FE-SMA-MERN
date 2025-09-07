@@ -44,8 +44,23 @@ const CreatePost = ({ onCreatePost,error }) => {
       /></div>
        <div className = 'createPost__bottom'>
         
-      <input type="file" accept="image/*" onChange={handleImageChange}  ref={fileInputRef} />
-      <button type="submit" disabled={loading}>
+       {/* <div className="createPost__image-upload"> */}
+
+      <input type="file" accept="image/*" onChange={handleImageChange}  ref={fileInputRef} 
+      id='postImage' style={{display:"none"}}/>
+       <button
+    type="button"
+    className="btn secondary"
+    onClick={() => fileInputRef.current.click()}
+  >
+    {image ? "Change Image" : "Choose Image"}
+  </button>
+  {image && <span className="fileName">{image.name}</span>}
+  {/* </div> */}
+  
+      <button type="submit" 
+      className={`btn primary ${loading ? "btn-loading" : ""}`}
+      disabled={loading}>
         {loading ? "Posting..." : "Post"}
       </button>
        {error && <p className="error">{error}</p>}

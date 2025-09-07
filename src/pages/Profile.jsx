@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import UserProfile from "../components/UserProfile";
@@ -7,6 +7,7 @@ import HeaderInfo from "../components/HeaderInfo";
 import Feed from "../components/Feed";
 import EditPostModal from "../components/EditPostModal";
 import EditProfileModal from "../components/EditProfileModal";
+import { updateFollowing } from "../store/user-slice";
 
 const Profile = () => {
   const [user, setUser] = useState({});
@@ -17,8 +18,14 @@ const Profile = () => {
   const token = useSelector((state) => state?.user?.currentUser?.token);
   const currentUserId = useSelector((state) => state?.user?.currentUser?.id);
 
-  const editPostModalOpen = useSelector((state) => state?.ui?.editPostModalOpen);
-  const editProfileModalOpen = useSelector((state) => state?.ui?.editProfileModalOpen);
+  const editPostModalOpen = useSelector(
+    (state) => state?.ui?.editPostModalOpen
+  );
+  const editProfileModalOpen = useSelector(
+    (state) => state?.ui?.editProfileModalOpen
+  );
+
+  const dispatch = useDispatch();
 
   // ------------------------------
   // Fetch user profile and posts
@@ -27,18 +34,24 @@ const Profile = () => {
     setIsLoading(true);
     try {
       // Get user info
-      const userRes = await axios.get(`${import.meta.env.VITE_API_URL}/users/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
-      });
+      const userRes = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        }
+      );
 
       setUser(userRes.data.user);
 
       // Get user posts
-      const postsRes = await axios.get(`${import.meta.env.VITE_API_URL}/users/${userId}/posts`, {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
-      });
+      const postsRes = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/${userId}/posts`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        }
+      );
 
       setUserPosts(postsRes.data.posts || []);
     } catch (err) {
@@ -56,22 +69,22 @@ const Profile = () => {
   // ------------------------------
   const handleFollowToggle = async () => {
     try {
-      const action = user.followers?.includes(currentUserId) ? "unfollow" : "follow";
-
-      const res = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/users/${userId}/${action}`,
-        {},
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/${userId}/follow-unfollow`,
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );
 
-      // Update local state immediately
+      // update the profile being viewed
       setUser((prev) => ({
         ...prev,
-        followers: res.data.user.followers,
+        followers: res.data.updatedUser.followers,
       }));
+
+      // update Redux with new following list
+      dispatch(updateFollowing(res.data.currentUserFollowing));
     } catch (err) {
       console.log(err);
     }
@@ -94,13 +107,19 @@ const Profile = () => {
 
   return (
     <section>
-      <UserProfile user={user} currentUserId={currentUserId} handleFollowToggle={handleFollowToggle} />
+      <UserProfile
+        user={user}
+        currentUserId={currentUserId}
+        handleFollowToggle={handleFollowToggle}
+      />
       <HeaderInfo text={`${user?.fullName}'s posts`} />
       <section className="profile__posts">
         {userPosts?.length < 1 ? (
           <p className="center">No posts by this user</p>
         ) : (
-          userPosts.map((post) => <Feed key={post._id} post={post} onDeletePost={deletePost} />)
+          userPosts.map((post) => (
+            <Feed key={post._id} post={post} onDeletePost={deletePost} />
+          ))
         )}
       </section>
 
